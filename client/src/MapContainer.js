@@ -4,27 +4,89 @@ import { useEffect, useState } from "react";
 import go from "./assets/pedestrian.png";
 import stop from "./assets/forbidden.png";
 import police from "./assets/policeman.png";
+import PopupComponent from "./PopupComponent";
 
 const MapContainer = () => {
+  const { REACT_APP_MAPBOX_TOKEN } = window.__RUNTIME_CONFIG__;
   const [crossings, setCrossings] = useState(null);
+  const [selectedCrossing, setSelectedCrossing] = useState(null);
+  const [policeReport, setPoliceReport] = useState(null);
+  const [refreshMap, setRefreshMap] = useState(false);
 
   useEffect(() => {
     fetch("/get-crossing")
       .then((res) => res.json())
       .then((data) => {
         setCrossings(data.data);
-        console.log(data.data);
       });
   }, []);
 
-  // useEffect(() => {
-  //   fetch("/get-police-reports")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     });
-  // }, []);
-if (!crossings){return <h1>Loading</h1>}
+  const reportPolice = (_id) => {
+    fetch("/report-police", {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        _id: _id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setRefreshMap(!refreshMap);
+      });
+    fetch(`/police-ts`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: _id }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRefreshMap(!refreshMap)
+      });
+  };
+
+  const reportPoliceGone = (_id) => {
+    fetch("/report-police-gone", {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        _id: _id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSelectedCrossing({
+          ...selectedCrossing,
+          [selectedCrossing.result.police]: false,
+        });
+        setRefreshMap(!refreshMap);
+      });
+  };
+
+  useEffect(() => {
+    fetch("/get-police-reports")
+      .then((res) => res.json())
+      .then((data) => {
+        setPoliceReport(data.data)
+      });
+  }, []);
+
+  const rightClick = () => {
+    setSelectedCrossing(null);
+  };
+
+  if (!crossings) {
+    return <h1>Loading</h1>;
+  }
   return (
     <StyledMap>
       <ReactMapBox
@@ -33,12 +95,11 @@ if (!crossings){return <h1>Loading</h1>}
           latitude: 45.52886,
           zoom: 14,
         }}
-        mapboxAccessToken={
-          "pk.eyJ1IjoiYWxsdGhlcmlnaHRoeXBlIiwiYSI6ImNsYXd1NWwzbDBqZmQzbmp1bmZ6NWVvMmQifQ.j40juR9qQyJdTkCOcXaLjg"
-        }
+        mapboxAccessToken={REACT_APP_MAPBOX_TOKEN}
         mapStyle={"mapbox://styles/alltherighthype/claviciik000914s952oab0f5"}
+        onContextMenu={rightClick}
       >
-        {/* <GeolocateControl showAccuracyCircle={false} /> */}
+        <GeolocateControl showAccuracyCircle={false} />
         {crossings.map((each) => {
           return (
             <Marker
@@ -46,20 +107,44 @@ if (!crossings){return <h1>Loading</h1>}
               longitude={each.result.longitude}
               key={each._id}
             >
-              <div>
-                <StyledIconDiv>
-                  {each.result.open === true ? (
-                    <img src={go} alt="this crossing is currently open" />
-                  ) : (
-                    <img src={stop} alt="this crossing is currently closed" />
-                  )}
-                  {each.result.police === true ? (
-                    <img src={police} alt="this crossing has police reports" />
-                  ) : null}
-                </StyledIconDiv>
-              </div>
-            </Marker>)
-          })}
+              <StyledIconDiv>
+                {each.result.open === true ? (
+                  <img src={go} alt="this crossing is currently open" />
+                ) : (
+                  <img src={stop} alt="this crossing is currently closed" />
+                )}
+                {//make this reflect the current crossing also?
+                }
+                {each.result.police === true ? (
+                  <img src={police} alt="this crossing has police reports" />
+                ) : null}
+              </StyledIconDiv>
+              <StyledBut
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setSelectedCrossing({
+                    name: each.result.name,
+                    bike: each.result.bike,
+                    police: each.result.police,
+                    open: each.result.open,
+                    _id: each._id,
+                  });
+                }}
+              >
+                {each.result.name}
+              </StyledBut>
+            </Marker>
+          );
+        })}
+        {selectedCrossing && (
+          <PopupComponent
+            selectedCrossing={selectedCrossing}
+            reportPolice={reportPolice}
+            reportPoliceGone={reportPoliceGone}
+            policeReport={policeReport}
+          />
+        )}
       </ReactMapBox>
     </StyledMap>
   );
@@ -67,6 +152,7 @@ if (!crossings){return <h1>Loading</h1>}
 
 const StyledMap = styled.div`
   margin-top: 100px;
+  position: relative;
   height: 80vh;
   width: 80vw;
   @media (max-width: 1000px) {
@@ -74,6 +160,13 @@ const StyledMap = styled.div`
     margin-top: 100px;
     width: 90vw;
   }
+`;
+
+const StyledBut = styled.button`
+  background-color: black;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 10px;
 `;
 
 const StyledIconDiv = styled.div`
