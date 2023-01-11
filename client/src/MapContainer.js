@@ -17,14 +17,14 @@ const MapContainer = () => {
       });
   }, []);
 
-  useEffect(() => {
-    fetch("/get-police-reports")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
-
+  // useEffect(() => {
+  //   fetch("/get-police-reports")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // }, []);
+if (!crossings){return <h1>Loading</h1>}
   return (
     <StyledMap>
       <ReactMapBox
@@ -38,9 +38,9 @@ const MapContainer = () => {
         }
         mapStyle={"mapbox://styles/alltherighthype/claviciik000914s952oab0f5"}
       >
-        <GeolocateControl showAccuracyCircle={false} />
-        {crossings &&
-          crossings.map((each) => {
+        {/* <GeolocateControl showAccuracyCircle={false} /> */}
+        {crossings.map((each) => {
+          return (
             <Marker
               latitude={each.result.latitude}
               longitude={each.result.longitude}
@@ -58,7 +58,7 @@ const MapContainer = () => {
                   ) : null}
                 </StyledIconDiv>
               </div>
-            </Marker>;
+            </Marker>)
           })}
       </ReactMapBox>
     </StyledMap>
