@@ -9,7 +9,7 @@ const NewCrossing = () => {
   const [crossings, setCrossings] = useState(null);
 
   useEffect(() => {
-    fetch("/get-crossing")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/get-crossing`)
       .then((res) => res.json())
       .then((data) => {
         setCrossings(data.data);
@@ -22,7 +22,7 @@ const NewCrossing = () => {
   };
 
   const handleSubmit = () => {
-    fetch(`/make-crossing`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/make-crossing`, {
       method: "POST",
       headers: {
         Accept: "application/json",

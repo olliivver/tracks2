@@ -6,7 +6,7 @@ const PoliceReports = () => {
   const [policeReport, setPoliceReport] = useState(null);
 
   useEffect(() => {
-    fetch("/get-police-reports")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/get-police-reports`)
       .then((res) => res.json())
       .then((data) => {
         setPoliceReport(data.data.reverse());

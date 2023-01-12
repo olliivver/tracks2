@@ -14,7 +14,7 @@ const MapContainer = () => {
   const [currentReport, setCurrentReport] = useState(null);
 
   useEffect(() => {
-    fetch("/get-crossing")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/get-crossing`)
       .then((res) => res.json())
       .then((data) => {
         setCrossings(data.data);
@@ -22,22 +22,22 @@ const MapContainer = () => {
   }, []);
 
   useEffect(() => {
-    fetch("/get-police-reports")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/get-police-reports`)
       .then((res) => res.json())
       .then((data) => {
         let reportArray = [];
         selectedCrossing &&
-        data.data.forEach((report)=>{
-          if (selectedCrossing.name === report.crossingName){
-            reportArray.push(report);
-          }
-        })
+          data.data.forEach((report) => {
+            if (selectedCrossing.name === report.crossingName) {
+              reportArray.push(report);
+            }
+          });
         setCurrentReport(reportArray[reportArray.length - 1]);
       });
   }, [selectedCrossing]);
 
   const reportPolice = (_id) => {
-    fetch("/report-police", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/report-police`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
@@ -51,7 +51,7 @@ const MapContainer = () => {
       .then((data) => {
         setRefreshMap(!refreshMap);
       });
-    fetch(`/police-ts`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/police-ts`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -67,7 +67,7 @@ const MapContainer = () => {
   };
 
   const reportPoliceGone = (_id) => {
-    fetch("/report-police-gone", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/report-police-gone`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
