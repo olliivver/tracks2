@@ -10,8 +10,8 @@ const MapContainer = () => {
   const { REACT_APP_MAPBOX_TOKEN } = window.__RUNTIME_CONFIG__;
   const [crossings, setCrossings] = useState(null);
   const [selectedCrossing, setSelectedCrossing] = useState(null);
-  const [policeReport, setPoliceReport] = useState(null);
   const [refreshMap, setRefreshMap] = useState(false);
+  const [currentReport, setCurrentReport] = useState(null);
 
   useEffect(() => {
     fetch("/get-crossing")
@@ -20,6 +20,21 @@ const MapContainer = () => {
         setCrossings(data.data);
       });
   }, []);
+
+  useEffect(() => {
+    fetch("/get-police-reports")
+      .then((res) => res.json())
+      .then((data) => {
+        let reportArray = [];
+        selectedCrossing &&
+        data.data.forEach((report)=>{
+          if (selectedCrossing.name === report.crossingName){
+            reportArray.push(report);
+          }
+        })
+        setCurrentReport(reportArray[reportArray.length - 1]);
+      });
+  }, [selectedCrossing]);
 
   const reportPolice = (_id) => {
     fetch("/report-police", {
@@ -47,7 +62,7 @@ const MapContainer = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setRefreshMap(!refreshMap)
+        setRefreshMap(!refreshMap);
       });
   };
 
@@ -71,14 +86,6 @@ const MapContainer = () => {
         setRefreshMap(!refreshMap);
       });
   };
-
-  useEffect(() => {
-    fetch("/get-police-reports")
-      .then((res) => res.json())
-      .then((data) => {
-        setPoliceReport(data.data)
-      });
-  }, []);
 
   const rightClick = () => {
     setSelectedCrossing(null);
@@ -113,7 +120,8 @@ const MapContainer = () => {
                 ) : (
                   <img src={stop} alt="this crossing is currently closed" />
                 )}
-                {//make this reflect the current crossing also?
+                {
+                  //make this reflect the current crossing also?
                 }
                 {each.result.police === true ? (
                   <img src={police} alt="this crossing has police reports" />
@@ -126,8 +134,8 @@ const MapContainer = () => {
                   setSelectedCrossing({
                     name: each.result.name,
                     bike: each.result.bike,
-                    police: each.result.police,
                     open: each.result.open,
+                    police: each.result.police,
                     _id: each._id,
                   });
                 }}
@@ -142,7 +150,7 @@ const MapContainer = () => {
             selectedCrossing={selectedCrossing}
             reportPolice={reportPolice}
             reportPoliceGone={reportPoliceGone}
-            policeReport={policeReport}
+            currentReport={currentReport}
           />
         )}
       </ReactMapBox>

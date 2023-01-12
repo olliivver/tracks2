@@ -1,10 +1,15 @@
 import styled from "styled-components";
 import moment from "moment";
 
-const PopupComponent = ({ selectedCrossing, policeReport, reportPolice, reportPoliceGone }) => {
+const PopupComponent = ({
+  selectedCrossing,
+  currentReport,
+  reportPolice,
+  reportPoliceGone,
+}) => {
   return (
     <>
-      {console.log(selectedCrossing.name)}
+      {console.log(currentReport)}
       <StyledInfo>
         <h2>{selectedCrossing.name}</h2>
         <div>
@@ -19,12 +24,12 @@ const PopupComponent = ({ selectedCrossing, policeReport, reportPolice, reportPo
               <button>Report Open</button>
             </div>
           )}
-          {selectedCrossing.police === true ? (
+          {selectedCrossing.police ? (
             <div>
-              {policeReport ? (
+              {currentReport ? (
                 <p>
                   Police last reported{" "}
-                  {moment(policeReport.timeStamp).format("H:mm • MMM Do YYYY")}
+                  {moment(currentReport.timeStamp).format("H:mm • MMM Do YYYY")}
                 </p>
               ) : (
                 <p>Police never reported</p>
@@ -39,11 +44,10 @@ const PopupComponent = ({ selectedCrossing, policeReport, reportPolice, reportPo
               <button onClick={() => reportPolice(selectedCrossing._id)}>
                 Report Police
               </button>
-              {policeReport ? (
+              {currentReport ? (
                 <p>
-                  {" "}
                   Police last reported{" "}
-                  {moment(policeReport.timeStamp).format("H:mm • D MMM YY")}
+                  {moment(currentReport.timeStamp).format("H:mm • D MMM YY")}
                 </p>
               ) : (
                 <p>Police never reported</p>
