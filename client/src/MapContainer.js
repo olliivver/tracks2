@@ -10,7 +10,6 @@ const MapContainer = () => {
   const { REACT_APP_MAPBOX_TOKEN } = window.__RUNTIME_CONFIG__;
   const [crossings, setCrossings] = useState(null);
   const [selectedCrossing, setSelectedCrossing] = useState(null);
-  const [refreshMap, setRefreshMap] = useState(false);
   const [currentReport, setCurrentReport] = useState(null);
 
   useEffect(() => {
@@ -49,7 +48,7 @@ const MapContainer = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setRefreshMap(!refreshMap);
+        window.location.reload();
       });
     fetch(`${process.env.REACT_APP_BACKEND_URL}/police-ts`, {
       method: "POST",
@@ -61,7 +60,7 @@ const MapContainer = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setRefreshMap(!refreshMap);
+        window.location.reload();
       });
   };
 
@@ -78,11 +77,41 @@ const MapContainer = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setSelectedCrossing({
-          ...selectedCrossing,
-          [selectedCrossing.result.police]: false,
-        });
-        setRefreshMap(!refreshMap);
+        window.location.reload();
+      });
+  };
+
+  const reportOpen = (_id) => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/report-open`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        _id: _id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        window.location.reload();
+      });
+  };
+
+  const reportClosed = (_id) => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/report-closed`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        _id: _id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        window.location.reload();
       });
   };
 
@@ -150,6 +179,8 @@ const MapContainer = () => {
             reportPolice={reportPolice}
             reportPoliceGone={reportPoliceGone}
             currentReport={currentReport}
+            reportOpen={reportOpen}
+            reportClosed={reportClosed}
           />
         )}
       </ReactMapBox>

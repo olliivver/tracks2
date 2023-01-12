@@ -6,6 +6,7 @@ const PopupComponent = ({
   currentReport,
   reportPolice,
   reportPoliceGone,
+  reportOpen,reportClosed
 }) => {
   return (
     <>
@@ -15,12 +16,16 @@ const PopupComponent = ({
           {selectedCrossing.open ? (
             <div>
               <p>Crossing currently open</p>
-              <button>Report Closed</button>
+              <button onClick={() => reportClosed(selectedCrossing._id)}>
+                Report Closed
+              </button>
             </div>
           ) : (
             <div>
               <p>Crossing currently closed</p>
-              <button>Report Open</button>
+              <button onClick={() => reportOpen(selectedCrossing._id)}>
+                Report Open
+              </button>
             </div>
           )}
           {selectedCrossing.police ? (
