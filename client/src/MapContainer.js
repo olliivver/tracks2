@@ -101,7 +101,9 @@ const MapContainer = () => {
           latitude: 45.52886,
           zoom: 14,
         }}
-        access_token={REACT_APP_MAPBOX_TOKEN}
+        mapboxAccessToken={
+          "pk.eyJ1IjoiYWxsdGhlcmlnaHRoeXBlIiwiYSI6ImNsYXd1NWwzbDBqZmQzbmp1bmZ6NWVvMmQifQ.j40juR9qQyJdTkCOcXaLjg"
+        }
         mapStyle={"mapbox://styles/alltherighthype/claviciik000914s952oab0f5"}
         onContextMenu={rightClick}
       >
