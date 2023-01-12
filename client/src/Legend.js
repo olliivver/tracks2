@@ -32,10 +32,6 @@ const Legend = () => {
         <Link to="/newcrossing">New Crossing</Link>
       </StyledP>
       <StyledP>
-        To adjust your map settings, click here:{" "}
-        <Link to="/profile">Profile</Link>
-      </StyledP>
-      <StyledP>
         For any comments or concerns, get in touch here:{" "}
         <Link to="/contact">Contact</Link>
       </StyledP>
