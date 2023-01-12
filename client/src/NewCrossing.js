@@ -2,11 +2,13 @@ import styled from "styled-components";
 import { useState } from "react";
 import ReactMapBox, { Marker } from "react-map-gl";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const NewCrossing = () => {
   const { REACT_APP_MAPBOX_TOKEN } = window.__RUNTIME_CONFIG__;
   const [form, setForm] = useState({});
   const [crossings, setCrossings] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/get-crossing`)
@@ -15,7 +17,6 @@ const NewCrossing = () => {
         setCrossings(data.data);
       });
   }, []);
-
   const handleChange = (key, value) => {
     setForm({ ...form, [key]: value, open: true, police: false });
   };
@@ -31,19 +32,12 @@ const NewCrossing = () => {
     })
       .then((res) => res.json())
       .then((data) => {});
-    console.log("submitted");
+    navigate("/");
   };
 
   const handleClick = (e) => {
     e.preventDefault();
-    const latInput = document.getElementById("latitude");
-    const lngInput = document.getElementById("longitude");
-    const latitude = e.lngLat.lat;
-    const longitude = e.lngLat.lng;
-    lngInput.value = longitude;
-    latInput.value = latitude;
-    setForm({ ...form, latitude: latitude, longitude:longitude });
-
+    setForm({ ...form, latitude: e.lngLat.lat, longitude: e.lngLat.lng });
   };
 
   if (!crossings) {
@@ -51,25 +45,8 @@ const NewCrossing = () => {
   }
   return (
     <StyledForm>
-      <p>
-        Find your crossing on the map, and click on it to populate the location
-        fields.
-      </p>
+      <p>Find your crossing on the map, and click on it.</p>
       <form onSubmit={handleSubmit}>
-        <input
-          onChange={(e) => handleChange(e.target.id, e.target.value)}
-          type="text"
-          placeholder="latitude"
-          id="latitude"
-          required
-        ></input>
-        <input
-          onChange={(e) => handleChange(e.target.id, e.target.value)}
-          type="text"
-          id="longitude"
-          placeholder="longitude"
-          required
-        ></input>
         <input
           onChange={(e) => handleChange(e.target.id, e.target.value)}
           placeholder="name your crossing"
@@ -123,24 +100,27 @@ const NewCrossing = () => {
             </Marker>
           );
         })}
+        {form.latitude && (
+          <Marker latitude={form.latitude} longitude={form.longitude}></Marker>
+        )}
       </ReactMapBox>
     </StyledForm>
   );
 };
 const StyledSubmit = styled.button`
-padding: 5px;
-border: 2px solid white;
-width: 35%;
-margin: 5px auto;
-`
+  padding: 5px;
+  border: 2px solid white;
+  width: 35%;
+  margin: 5px auto;
+`;
 const StyledRadio = styled.div`
-  display:flex;
+  display: flex;
   justify-content: center;
-  label{
+  label {
     padding: 0 5px;
   }
-  p{
-    margin-right:20px;
+  p {
+    margin-right: 20px;
   }
 `;
 const StyledMarker = styled.p`

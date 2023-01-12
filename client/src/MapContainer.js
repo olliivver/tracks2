@@ -11,7 +11,7 @@ const MapContainer = () => {
   const [crossings, setCrossings] = useState(null);
   const [selectedCrossing, setSelectedCrossing] = useState(null);
   const [currentReport, setCurrentReport] = useState(null);
-
+  //${process.env.REACT_APP_BACKEND_URL}
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/get-crossing`)
       .then((res) => res.json())
