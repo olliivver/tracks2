@@ -24,7 +24,7 @@ let crossingArr = [];
         {policeReport.forEach((report) => {
           if (!crossingArr.includes(report.crossingName)) {
             crossingArr.push(report.crossingName);
-            console.log(crossingArr);
+
           }
         })}
 

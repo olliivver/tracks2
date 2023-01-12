@@ -84,7 +84,7 @@ const updateCrossingPolice = async (req, res) => {
   const db = client.db("tracks");
   const _id = req.body._id;
   //const oldCrossing = await db.collection("crossings").findOne(_id);
-  console.log(_id);
+
   try {
     const query = {
       _id: _id,
@@ -94,8 +94,6 @@ const updateCrossingPolice = async (req, res) => {
     const policeReport = await db
       .collection("crossings")
       .updateOne(query, reportPolice);
-
-    console.log(policeReport);
     return res.status(200).json({ status: 200, data: "Police Reported" });
   } catch (err) {
     return res.status(400).json({ status: 400, error: err.message });
@@ -109,7 +107,6 @@ const updateCrossingPoliceGone = async (req, res) => {
   await client.connect();
   const db = client.db("tracks");
   const _id = req.body._id;
-  console.log(_id);
   try {
     const query = {
       _id: _id,
@@ -183,9 +180,7 @@ const pushPoliceReport = async (req, res) => {
   const id = req.body.id;
 
   const crossing = await db.collection("crossings").findOne({ _id: id });
-  console.log(crossing);
   const crossingName = crossing.result.name;
-  console.log(crossing);
 
   const finalResult = await db.collection("reports").insertOne({
     crossingName,

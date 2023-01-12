@@ -9,7 +9,6 @@ const PopupComponent = ({
 }) => {
   return (
     <>
-      {console.log(currentReport)}
       <StyledInfo>
         <h2>{selectedCrossing.name}</h2>
         <div>

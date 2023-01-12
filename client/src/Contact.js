@@ -10,7 +10,6 @@ const Contact = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    console.log(form.current);
     emailjs
       .sendForm(
         REACT_APP_SERVICE_ID,
@@ -20,10 +19,8 @@ const Contact = () => {
       )
       .then(
         (result) => {
-          console.log(result.text);
         },
         (error) => {
-          console.log(error.text);
         }
       );
       setButDis(true)

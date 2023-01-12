@@ -18,7 +18,6 @@ const NewCrossing = () => {
 
   const handleChange = (key, value) => {
     setForm({ ...form, [key]: value, open: true, police: false });
-    console.log(form)
   };
 
   const handleSubmit = () => {
