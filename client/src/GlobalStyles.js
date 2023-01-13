@@ -10,6 +10,9 @@ export default createGlobalStyle`
 *, *::before, *::after {
   box-sizing: border-box;
 }
+.mapbox-improve-map {
+    display: none;
+}
 /*
   2. Remove default margin
 */

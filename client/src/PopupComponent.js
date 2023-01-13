@@ -14,6 +14,7 @@ const PopupComponent = ({
     <>
       <StyledInfo>
         <h2>{selectedCrossing.name}</h2>
+        <StyleCloseBut onClick={() => setSelectedCrossing(null)}>x</StyleCloseBut>
         <div>
           {selectedCrossing.open ? (
             <div>
@@ -66,11 +67,18 @@ const PopupComponent = ({
             <p>This crossing is too small for bicycles</p>
           )}
         </div>
-        <button onClick={()=>setSelectedCrossing(null)}>close</button>
       </StyledInfo>
     </>
   );
 };
+
+const StyleCloseBut = styled.button`
+position: absolute;
+z-index: 2;
+right: 15px;
+top: 15px;
+font-size: 1.3rem;
+`
 
 const StyledInfo = styled.div`
   /* display: ${(props) => (props.infoDiv ? "flex" : "none")}; */

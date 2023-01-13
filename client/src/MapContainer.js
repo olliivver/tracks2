@@ -13,7 +13,7 @@ const MapContainer = () => {
   const [currentReport, setCurrentReport] = useState(null);
   //${process.env.REACT_APP_BACKEND_URL}
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/get-crossing`)
+    fetch(`/get-crossing`)
       .then((res) => res.json())
       .then((data) => {
         setCrossings(data.data);
@@ -148,9 +148,6 @@ const MapContainer = () => {
                 ) : (
                   <img src={stop} alt="this crossing is currently closed" />
                 )}
-                {
-                  //make this reflect the current crossing also?
-                }
                 {each.result.police === true ? (
                   <img src={police} alt="this crossing has police reports" />
                 ) : null}

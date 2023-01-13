@@ -8,9 +8,10 @@ const Footer = () => {
   );
 };
 const StyledFooter = styled.div`
-  position: absolute;
-  left: 2%;
-  right: 0;
-  bottom: 15px;
+  position: sticky;
+  z-index: 1;
+  left: 0;
+  bottom: 0;
+  background-color: black;
 `;
 export default Footer;
