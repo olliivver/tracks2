@@ -6,7 +6,9 @@ const PopupComponent = ({
   currentReport,
   reportPolice,
   reportPoliceGone,
-  reportOpen,reportClosed
+  reportOpen,
+  reportClosed,
+  setSelectedCrossing,
 }) => {
   return (
     <>
@@ -64,6 +66,7 @@ const PopupComponent = ({
             <p>This crossing is too small for bicycles</p>
           )}
         </div>
+        <button onClick={()=>setSelectedCrossing(null)}>close</button>
       </StyledInfo>
     </>
   );

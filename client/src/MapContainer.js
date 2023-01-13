@@ -181,6 +181,7 @@ const MapContainer = () => {
             currentReport={currentReport}
             reportOpen={reportOpen}
             reportClosed={reportClosed}
+            setSelectedCrossing={setSelectedCrossing}
           />
         )}
       </ReactMapBox>
