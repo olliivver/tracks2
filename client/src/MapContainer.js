@@ -13,7 +13,7 @@ const MapContainer = () => {
   const [currentReport, setCurrentReport] = useState(null);
   //${process.env.REACT_APP_BACKEND_URL}
   useEffect(() => {
-    fetch(`/get-crossing`)
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/get-crossing`)
       .then((res) => res.json())
       .then((data) => {
         setCrossings(data.data);
