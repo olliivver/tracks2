@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import emailjs from "@emailjs/browser";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const { REACT_APP_SERVICE_ID, REACT_APP_PUBLIC_KEY } = window.__RUNTIME_CONFIG__;
 
 const Contact = () => {
   const [butDis, setButDis] = useState(false);
   const form = useRef();
+  const navigate = useNavigate();
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -27,6 +29,7 @@ const Contact = () => {
       setTimeout(()=>{
         setButDis(false);
         window.location.reload();
+navigate("/");
       }, 1000)
   };
 
