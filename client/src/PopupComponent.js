@@ -47,7 +47,7 @@ const PopupComponent = ({
             </div>
           ) : (
             <div>
-              <p>police currently not reported.</p>
+              <p>Police currently not reported.</p>
               <button onClick={() => reportPolice(selectedCrossing._id)}>
                 Report Police
               </button>
@@ -61,11 +61,11 @@ const PopupComponent = ({
               )}
             </div>
           )}
-          {selectedCrossing.bike === "true" ? (
+          {/* {selectedCrossing.bike === "true" ? (
             <p>This crossing is wide enough for bicycles</p>
           ) : (
             <p>This crossing is too small for bicycles</p>
-          )}
+          )} */}
         </div>
       </StyledInfo>
     </>
