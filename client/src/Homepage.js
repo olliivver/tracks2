@@ -10,7 +10,6 @@ const HomePage = () => {
         <Legend />
         <MapContainer />
       </StyledBg>
-      <Footer />
     </>
   );
 };

@@ -35,6 +35,10 @@ const Legend = () => {
         For any comments or concerns, get in touch here:{" "}
         <Link to="/contact">Contact</Link>
       </StyledP>
+      <StyledP>
+        DISCLAIMER: crossing train tracks is dangerous and illegal. This site is
+        not encouraging commuters to cross train tracks. Be safe.
+      </StyledP>
     </StyledLegend>
   );
 };
