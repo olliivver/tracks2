@@ -5,6 +5,7 @@ import go from "./assets/pedestrian.png";
 import stop from "./assets/forbidden.png";
 import police from "./assets/policeman.png";
 import PopupComponent from "./PopupComponent";
+import { PacmanLoader } from "react-spinners";
 
 const MapContainer = () => {
   const { REACT_APP_MAPBOX_TOKEN } = window.__RUNTIME_CONFIG__;
@@ -13,7 +14,7 @@ const MapContainer = () => {
   const [currentReport, setCurrentReport] = useState(null);
   //${process.env.REACT_APP_BACKEND_URL}
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/get-crossing`)
+    fetch(`/get-crossing`)
       .then((res) => res.json())
       .then((data) => {
         setCrossings(data.data);
@@ -120,7 +121,14 @@ const MapContainer = () => {
   };
 
   if (!crossings) {
-    return <h1>Loading</h1>;
+    return (
+      <StyledLoad>
+        <div>
+          <h1>Map is Loading</h1>
+          <PacmanLoader color="#fff" />
+        </div>
+      </StyledLoad>
+    );
   }
   return (
     <StyledMap>
@@ -185,6 +193,12 @@ const MapContainer = () => {
     </StyledMap>
   );
 };
+
+const StyledLoad = styled.div`
+  margin-top: 100px;
+  position: relative;
+  padding:10%;
+`;
 
 const StyledMap = styled.div`
   margin-top: 100px;

@@ -51,7 +51,7 @@ const StyledLegend = styled.div`
     align-items: center;
   }
   @media (max-width: 1000px) {
-    margin: 80px 0 0 20px;
+    margin: 20px 0 0 20px;
     width: 90vw;
   }
 `;
