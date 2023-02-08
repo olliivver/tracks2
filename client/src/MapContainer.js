@@ -5,6 +5,7 @@ import go from "./assets/pedestrian.png";
 import stop from "./assets/forbidden.png";
 import police from "./assets/policeman.png";
 import PopupComponent from "./PopupComponent";
+import gps from "./assets/gps.png";
 import { PacmanLoader } from "react-spinners";
 
 const MapContainer = () => {
@@ -143,6 +144,7 @@ const MapContainer = () => {
         onContextMenu={rightClick}
       >
         <GeolocateControl showAccuracyCircle={false} />
+        <StyledGps src={gps} alt="geo locating button" />
         {crossings.map((each) => {
           return (
             <Marker
@@ -194,6 +196,17 @@ const MapContainer = () => {
   );
 };
 
+const StyledGps = styled.img`
+z-index: 2;
+position: absolute;
+top: 10px;
+right: 10px;
+height: 30px;
+-moz-user-select: none;
+-webkit-user-select: none;
+user-select: none;
+pointer-events: none;
+`
 const StyledLoad = styled.div`
   margin-top: 100px;
   position: relative;
