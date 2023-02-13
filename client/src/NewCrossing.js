@@ -18,9 +18,12 @@ const NewCrossing = () => {
       });
   }, []);
   const handleChange = (key, value) => {
+    if (key === "legalCrossing") {
+      value = (value === "true");
+    }
     setForm({ ...form, [key]: value, open: true, police: false });
   };
-
+//${process.env.REACT_APP_BACKEND_URL}
   const handleSubmit = () => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/make-crossing`, {
       method: "POST",
@@ -55,12 +58,11 @@ const NewCrossing = () => {
           required
         ></input>
         <StyledRadio>
-          <p>Is this crossing wide enough for a bicycle?</p>
+          <p>Is this a legal crossing?</p>
           <label>Yes</label>
           <input
             onChange={(e) => handleChange(e.target.name, e.target.value)}
-            placeholder="name your crossing"
-            name="bike"
+            name="legalCrossing"
             id="true"
             value={true}
             type="radio"
@@ -69,10 +71,9 @@ const NewCrossing = () => {
           <label>No</label>
           <input
             onChange={(e) => handleChange(e.target.name, e.target.value)}
-            placeholder="name your crossing"
             id="false"
             value={false}
-            name="bike"
+            name="legalCrossing"
             type="radio"
             required
           ></input>

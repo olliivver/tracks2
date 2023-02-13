@@ -19,6 +19,7 @@ const MapContainer = () => {
       .then((res) => res.json())
       .then((data) => {
         setCrossings(data.data);
+        console.log(data);
       });
   }, []);
 
@@ -171,6 +172,7 @@ const MapContainer = () => {
                     bike: each.result.bike,
                     open: each.result.open,
                     police: each.result.police,
+                    legalCrossing: each.result.legalCrossing,
                     _id: each._id,
                   });
                 }}

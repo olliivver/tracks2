@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import MapContainer from "./MapContainer";
 import Legend from "./Legend";
-import Footer from "./Footer";
 
 const HomePage = () => {
   return (

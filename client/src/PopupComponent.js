@@ -14,7 +14,9 @@ const PopupComponent = ({
     <>
       <StyledInfo>
         <h2>{selectedCrossing.name}</h2>
-        <StyleCloseBut onClick={() => setSelectedCrossing(null)}>x</StyleCloseBut>
+        <StyleCloseBut onClick={() => setSelectedCrossing(null)}>
+          x
+        </StyleCloseBut>
         <div>
           {selectedCrossing.open ? (
             <div>
@@ -31,7 +33,9 @@ const PopupComponent = ({
               </button>
             </div>
           )}
-          {selectedCrossing.police ? (
+          {selectedCrossing.legalCrossing ? (
+            <p>This is a legal crossing</p>
+          ) : selectedCrossing.police && !selectedCrossing.legalCrossing ? (
             <div>
               {currentReport ? (
                 <p>
@@ -61,11 +65,6 @@ const PopupComponent = ({
               )}
             </div>
           )}
-          {/* {selectedCrossing.bike === "true" ? (
-            <p>This crossing is wide enough for bicycles</p>
-          ) : (
-            <p>This crossing is too small for bicycles</p>
-          )} */}
         </div>
       </StyledInfo>
     </>
@@ -73,12 +72,12 @@ const PopupComponent = ({
 };
 
 const StyleCloseBut = styled.button`
-position: absolute;
-z-index: 2;
-right: 15px;
-top: 15px;
-font-size: 1.3rem;
-`
+  position: absolute;
+  z-index: 2;
+  right: 15px;
+  top: 15px;
+  font-size: 1.3rem;
+`;
 
 const StyledInfo = styled.div`
   /* display: ${(props) => (props.infoDiv ? "flex" : "none")}; */
