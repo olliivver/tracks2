@@ -19,7 +19,6 @@ const MapContainer = () => {
       .then((res) => res.json())
       .then((data) => {
         setCrossings(data.data);
-        console.log(data);
       });
   }, []);
 
