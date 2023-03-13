@@ -18,53 +18,63 @@ const PopupComponent = ({
           x
         </StyleCloseBut>
         <div>
-          {selectedCrossing.open ? (
-            <div>
-              <p>Crossing currently open</p>
-              <button onClick={() => reportClosed(selectedCrossing._id)}>
-                Report Closed
-              </button>
-            </div>
-          ) : (
-            <div>
-              <p>Crossing currently closed</p>
-              <button onClick={() => reportOpen(selectedCrossing._id)}>
-                Report Open
-              </button>
-            </div>
-          )}
-          {selectedCrossing.legalCrossing ? (
-            <p>This is a legal crossing</p>
-          ) : selectedCrossing.police && !selectedCrossing.legalCrossing ? (
-            <div>
-              {currentReport ? (
-                <p>
-                  Police last reported{" "}
-                  {moment(currentReport.timeStamp).format("H:mm • MMM Do YYYY")}
-                </p>
+          {!selectedCrossing.legalCrossing && (
+            <>
+              {selectedCrossing.open ? (
+                <div>
+                  <p>Crossing currently open</p>
+                  <button onClick={() => reportClosed(selectedCrossing._id)}>
+                    Report Closed
+                  </button>
+                </div>
               ) : (
-                <p>Police never reported</p>
+                <div>
+                  <p>Crossing currently closed</p>
+                  <button onClick={() => reportOpen(selectedCrossing._id)}>
+                    Report Open
+                  </button>
+                </div>
               )}
-              <button onClick={() => reportPoliceGone(selectedCrossing._id)}>
-                Report Police Gone
-              </button>
-            </div>
-          ) : (
-            <div>
-              <p>Police currently not reported.</p>
-              <button onClick={() => reportPolice(selectedCrossing._id)}>
-                Report Police
-              </button>
-              {currentReport ? (
-                <p>
-                  Police last reported{" "}
-                  {moment(currentReport.timeStamp).format("H:mm • D MMM YY")}
-                </p>
+              {selectedCrossing.police ? (
+                <div>
+                  {currentReport ? (
+                    <p>
+                      Police last reported{" "}
+                      {moment(currentReport.timeStamp).format(
+                        "H:mm • MMM Do YYYY"
+                      )}
+                    </p>
+                  ) : (
+                    <p>Police never reported</p>
+                  )}
+                  <button
+                    onClick={() => reportPoliceGone(selectedCrossing._id)}
+                  >
+                    Report Police Gone
+                  </button>
+                </div>
               ) : (
-                <p>Police never reported</p>
+                <div>
+                  <p>Police currently not reported.</p>
+                  <button onClick={() => reportPolice(selectedCrossing._id)}>
+                    Report Police
+                  </button>
+                  {currentReport ? (
+                    <p>
+                      Police last reported{" "}
+                      {moment(currentReport.timeStamp).format(
+                        "H:mm • D MMM YY"
+                      )}
+                    </p>
+                  ) : (
+                    <p>Police never reported</p>
+                  )}
+                </div>
               )}
-            </div>
+            </>
           )}
+
+          {selectedCrossing.legalCrossing && <p>This is a legal crossing</p>}
         </div>
       </StyledInfo>
     </>

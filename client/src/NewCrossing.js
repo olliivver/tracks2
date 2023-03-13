@@ -25,6 +25,10 @@ const NewCrossing = () => {
   };
 //${process.env.REACT_APP_BACKEND_URL}
   const handleSubmit = () => {
+    if (!form.latitude || !form.longitude) {
+      alert("Please select a location on the map");
+      return;
+    }
     fetch(`${process.env.REACT_APP_BACKEND_URL}/make-crossing`, {
       method: "POST",
       headers: {
@@ -37,7 +41,6 @@ const NewCrossing = () => {
       .then((data) => {});
     navigate("/");
   };
-
   const handleClick = (e) => {
     e.preventDefault();
     setForm({ ...form, latitude: e.lngLat.lat, longitude: e.lngLat.lng });
